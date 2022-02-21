@@ -3,7 +3,7 @@ import './ImageLinkForm.css'
 
 const ImageLinkForm = () => {
 	return (
-		<div className="center">
+		<div className="tc">
 			<p className="f3 "> 
 			{'This Magic Brain will detect faces in your pictures'}
 			</p>
