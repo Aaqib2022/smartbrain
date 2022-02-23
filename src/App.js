@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Navigation from './Components/Navigation/Navigation';
+import Signin from './Components/Signin/Signin';
 import Logo from './Components/Logo/Logo';
 import Clarifai from 'clarifai';
 import ImageLinkForm from './Components/ImageLinkForm/ImageLinkForm';
@@ -20,13 +21,16 @@ class App extends Component {
       this.state = {
         input:'', 
         imageUrl: ' ',
-        box: {}
+        box: {} ,
+        route: 'Signin'
       }
     }
 
+      onRouteChange = (route) => {
+        this.setState({route: route});
+      }
+
     calculateFaceBox = (data) => {
-
-
         const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box
         const image = document.getElementById("inputimage");
         const width = Number(image.width);
@@ -64,6 +68,7 @@ class App extends Component {
           options={particlesOptions}
         />
         <Navigation />
+        <Signin onRouteChange = {this.state.onRouteChange}/>
         <Logo />  
         <Rank />
         <ImageLinkForm 
