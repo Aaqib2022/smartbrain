@@ -23,12 +23,17 @@ class App extends Component {
         input:'', 
         imageUrl: ' ',
         box: {} ,
-        route: 'Signin'
+        route: 'Signin',
+        isSignedIn: false
       }
     }
 
       onRouteChange = (route) => {
-        console.log(route);
+        if (route === "Signin") {
+          this.setState({isSignedIn: false});
+        } else if (route === "home") {
+          this.setState({isSignedIn: true});         
+        }
         this.setState({route: route});
       }
 
@@ -69,7 +74,7 @@ class App extends Component {
           id="tsparticles"
           options={particlesOptions}
         />
-        <Navigation onRouteChange={this.onRouteChange}/>
+        <Navigation isSignedIn= {this.state.isSignedIn} onRouteChange={this.onRouteChange}/>
         { this.state.route === "home" 
           ? ( 
               <div> 
@@ -86,7 +91,7 @@ class App extends Component {
               </div> 
             ) : (
               this.state.route === "Signin" ? 
-                  <Signin onRouteChange = {this.onRouteChange}/>
+                  <Signin  onRouteChange = {this.onRouteChange}/>
                   : <Register onRouteChange = {this.onRouteChange}/>
               )
          }
