@@ -24,7 +24,16 @@ class App extends Component {
         imageUrl: ' ',
         box: {} ,
         route: 'Signin',
-        isSignedIn: false
+        isSignedIn: false,
+        loadUser: {
+          user:{
+                id: '',
+                username: '',
+                email: '',
+                entries: 0,
+                joined: ''
+              }
+        }
       }
     }
 
@@ -35,6 +44,17 @@ class App extends Component {
           this.setState({isSignedIn: true});         
         }
         this.setState({route: route});
+      }
+
+      loadUser = (data) => {this.setState({
+            user: {
+                   id: 'data.id',
+                    username: 'data.username',
+                    email: 'data.email',
+                    entries: 0,
+                    joined: 'data.joined'
+                  }
+              })
       }
 
     calculateFaceBox = (data) => {
@@ -93,7 +113,7 @@ class App extends Component {
             ) : (
               this.state.route === "Signin" ? 
                   <Signin  onRouteChange = {this.onRouteChange}/>
-                  : <Register onRouteChange = {this.onRouteChange}/>
+                  : <Register loadUser={this.loadUser} onRouteChange = {this.onRouteChange}/>
               )
          }
     
