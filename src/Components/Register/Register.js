@@ -12,7 +12,22 @@ class Register extends Component {
 
 	onSubmitRegister = () => {
 	// WORKING ON FETCH HERE IN ODER TO SEND REQUEST TO BACKEND!
-		this.props.onRouteChange('home');
+		fetch('http://localhost:3001/register' , {
+			method: 'post',
+			headers: {'Content-Type' : 'application/json'},
+			body: JSON.stringify({
+				email: this.state.email ,
+				password: this.state.password,
+				name: this.state.name
+			})
+		})
+		.then(response =>response.json())
+		.then( user => {
+				if (user) {	
+					this.props.loadUser(user);
+					this.props.onRouteChange('home');
+					}
+			});
 	}
 
 	onNameChange = (event) => {
