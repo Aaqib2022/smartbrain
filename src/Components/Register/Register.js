@@ -6,7 +6,7 @@ class Register extends Component {
 		this.state = {
 			email: '',
 			password: '',
-			name: ''
+			username: ''
 		}		
 	}
 
@@ -18,12 +18,12 @@ class Register extends Component {
 			body: JSON.stringify({
 				email: this.state.email ,
 				password: this.state.password,
-				name: this.state.name
+				username: this.state.username
 			})
 		})
 		.then(response =>response.json())
 		.then( user => {
-				if (user) {	
+				if (user.id) {	
 					this.props.loadUser(user);
 					this.props.onRouteChange('home');
 					}
@@ -31,7 +31,7 @@ class Register extends Component {
 	}
 
 	onNameChange = (event) => {
-		this.setState({name: event.target.value});
+		this.setState({username: event.target.value});
 	}
 
 	onEmailChange = (event) => {

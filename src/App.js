@@ -25,15 +25,14 @@ class App extends Component {
         box: {} ,
         route: 'Signin',
         isSignedIn: false,
-        loadUser: {
-          user:{
+          user: {
                 id: '',
                 username: '',
                 email: '',
                 entries: 0,
                 joined: ''
               }
-        }
+  
       }
     }
 
@@ -46,13 +45,14 @@ class App extends Component {
         this.setState({route: route});
       }
 
-      loadUser = (data) => {this.setState({
+      loadUser = (user) => {
+        this.setState({
             user: {
-                   id: 'data.id',
-                    username: 'data.username',
-                    email: 'data.email',
-                    entries: 0,
-                    joined: 'data.joined'
+                    id: user.id,
+                    username: user.username,
+                    email: user.email,
+                    entries: user.entries,
+                    joined: user.joined
                   }
               })
       }
@@ -81,7 +81,20 @@ class App extends Component {
     onButtonSubmit = () => {
       this.setState({imageUrl: this.state.input});
       app.models.predict(Clarifai.FACE_DETECT_MODEL , this.state.input)
-      .then(response => this.displayFaceBox(this.calculateFaceBox(response)))
+      .then(response => {
+        if (response) {
+          fetch('http://localhost:3001/image' , {
+                  method: 'post',
+                  headers: {'Content-Type' : 'application/json'},
+                  body: JSON.stringify({
+                    id: this.state.user.id
+                  })
+           })
+          .then(response => response.json())
+          .then(count => {this.setState(Object.assign(this.state.user , {entries: count}))})
+        }
+        this.displayFaceBox(this.calculateFaceBox(response))
+      })
       .catch(err => console.log(err));
   
     }
@@ -100,7 +113,8 @@ class App extends Component {
           ? ( 
               <div> 
                 <Logo />  
-                <Rank />
+                <Rank username={this.state.user.username} 
+                entries = {this.state.user.entries}/>
                 <ImageLinkForm 
                   onInputChange={this.onInputChange} 
                   onButtonSubmit={this.onButtonSubmit}
@@ -112,7 +126,7 @@ class App extends Component {
               </div> 
             ) : (
               this.state.route === "Signin" ? 
-                  <Signin  onRouteChange = {this.onRouteChange}/>
+                  <Signin  loadUser={this.loadUser} onRouteChange = {this.onRouteChange}/>
                   : <Register loadUser={this.loadUser} onRouteChange = {this.onRouteChange}/>
               )
          }
