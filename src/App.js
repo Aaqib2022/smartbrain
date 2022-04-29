@@ -27,7 +27,7 @@ class App extends Component {
         isSignedIn: false,
           user: {
                 id: '',
-                username: '',
+                name: '',
                 email: '',
                 entries: 0,
                 joined: ''
@@ -49,7 +49,7 @@ class App extends Component {
         this.setState({
             user: {
                     id: user.id,
-                    username: user.username,
+                    name: user.name,
                     email: user.email,
                     entries: user.entries,
                     joined: user.joined
@@ -84,7 +84,7 @@ class App extends Component {
       .then(response => {
         if (response) {
           fetch('http://localhost:3001/image' , {
-                  method: 'post',
+                  method: 'put',
                   headers: {'Content-Type' : 'application/json'},
                   body: JSON.stringify({
                     id: this.state.user.id
@@ -113,7 +113,7 @@ class App extends Component {
           ? ( 
               <div> 
                 <Logo />  
-                <Rank username={this.state.user.username} 
+                <Rank name={this.state.user.name} 
                 entries = {this.state.user.entries}/>
                 <ImageLinkForm 
                   onInputChange={this.onInputChange} 
