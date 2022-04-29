@@ -15,11 +15,7 @@ const app = new Clarifai.App({
     apiKey: '63dd9e713bf8405082a77e48957ac212'
 });
 
-class App extends Component {
-
-    constructor () {
-      super();
-      this.state = {
+const intialState = {
         input:'', 
         imageUrl: ' ',
         box: {} ,
@@ -32,13 +28,17 @@ class App extends Component {
                 entries: 0,
                 joined: ''
               }
-  
       }
+
+class App extends Component {
+    constructor () {
+      super();
+      this.state = intialState;
     }
 
       onRouteChange = (route) => {
         if (route === "Signin") {
-          this.setState({isSignedIn: false});
+          this.setState(intialState);
         } else if (route === "home") {
           this.setState({isSignedIn: true});         
         }
