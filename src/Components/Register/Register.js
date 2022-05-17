@@ -12,7 +12,7 @@ class Register extends Component {
 
 	onSubmitRegister = () => {
 	// WORKING ON FETCH HERE IN ODER TO SEND REQUEST TO BACKEND!
-		fetch('https://serene-chamber-51723.herokuapp.com/register' , {
+		fetch('https://gentle-fortress-02459.herokuapp.com/register' , {
 			method: 'post',
 			headers: {'Content-Type' : 'application/json'},
 			body: JSON.stringify({
